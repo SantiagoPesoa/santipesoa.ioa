@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descargar Video de YouTube</title>
+</head>
+<body>
+    <h1>Descargar Video de YouTube</h1>
+    
+    <form id="downloadForm">
+        <label for="url">URL del video:</label>
+        <input type="text" id="url" required><br>
+        
+        <!-- Establecer el formato directamente en el código -->
+        <label for="formato">Formato deseado:</label>
+        <input type="text" id="formato" value="mp4" required><br>
+        
+        <button type="button" onclick="descargarVideo()">Descargar</button>
+    </form>
+
+    <p id="mensaje"></p>
+
+    <script>
+        function descargarVideo() {
+            var url = document.getElementById('url').value;
+            var formato = document.getElementById('formato').value;
+            
+            // Establecer la ruta de descarga y formato directamente en el código
+            var ruta_descarga = 'C:\\Users\\Estudiantes\\Downloads\\';
+
+            var mensajeElement = document.getElementById('mensaje');
+
+            try {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        mensajeElement.innerHTML = xhr.responseText;
+                    }
+                };
+
+                var data = JSON.stringify({
+                    url: url,
+                    formato: formato,
+                    ruta_descarga: ruta_descarga
+                });
+
+                xhr.send(data);
+            } catch (error) {
+                mensajeElement.innerHTML = "Error: " + error;
+            }
+        }
+    </script>
+</body>
+</html>
